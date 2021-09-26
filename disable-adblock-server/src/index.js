@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  exec(buildDisableString(req), (error, stdout, stderr) => {
+  exec(buildDisableString(req.query), (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
       return;
@@ -25,13 +25,13 @@ app.get('/', (req, res) => {
   res.send('recieved..');
 });
 
-buildDisableString = (req) => {
-  if (req.hasOwnProperty('seconds')) {
-    console.log(`pihole disable ${req.seconds}s`);
-    return `pihole disable ${req.seconds}s`;
+buildDisableString = (input) => {
+  if (input.hasOwnProperty('seconds')) {
+    console.log(`pihole disable ${input.seconds}s`);
+    return `pihole disable ${input.seconds}s`;
   } else {
-    console.log(`pihole disable ${req.minutes}m`);
-    return `pihole disable ${req.minutes}m`;
+    console.log(`pihole disable ${input.minutes}m`);
+    return `pihole disable ${input.minutes}m`;
   }
 };
 
