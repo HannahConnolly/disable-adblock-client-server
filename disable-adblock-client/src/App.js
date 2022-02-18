@@ -14,7 +14,8 @@ function App() {
                 <div className='buttons are-large'>
                   <button
                     className='button is-fullwidth'
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       callBackendAPI(30, 'seconds');
                     }}
                   >
@@ -22,7 +23,8 @@ function App() {
                   </button>
                   <button
                     className='button is-fullwidth'
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       callBackendAPI(60, 'seconds');
                     }}
                   >
@@ -30,7 +32,8 @@ function App() {
                   </button>
                   <button
                     className='button is-fullwidth'
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       callBackendAPI(300, 'seconds');
                     }}
                   >
@@ -38,7 +41,8 @@ function App() {
                   </button>
                   <button
                     className='button is-fullwidth'
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       callBackendAPI(60, 'minutes');
                     }}
                   >
@@ -55,9 +59,13 @@ function App() {
 }
 // fetching the GET route from the Express server which matches the GET route from server.js
 const callBackendAPI = async (amount, type) => {
-  await fetch(`${endpoint}/?${type}=${amount}`, {
-    headers: new Headers({}),
-  });
+  try {
+    await fetch(`${endpoint}/?${type}=${amount}`, {
+      headers: new Headers({}),
+    });
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export default App;
