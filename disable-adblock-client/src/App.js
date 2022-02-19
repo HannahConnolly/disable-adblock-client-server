@@ -1,6 +1,10 @@
+// import { useState } from 'react';
+
 const endpoint = 'http://192.168.1.94:5555';
 
 function App() {
+  // const [button30, setbutton30] = useState['off'];
+  // console.log(button30);
   return (
     <section className='hero is-primary is-fullheight'>
       <div className='hero-body'>
@@ -12,42 +16,10 @@ function App() {
                   Disable adblock
                 </h1>
                 <div className='buttons are-large'>
-                  <button
-                    className='button is-fullwidth'
-                    onClick={(e) => {
-                      e.preventDefault();
-                      callBackendAPI(30, 'seconds');
-                    }}
-                  >
-                    30 seconds
-                  </button>
-                  <button
-                    className='button is-fullwidth'
-                    onClick={(e) => {
-                      e.preventDefault();
-                      callBackendAPI(60, 'seconds');
-                    }}
-                  >
-                    1 minute
-                  </button>
-                  <button
-                    className='button is-fullwidth'
-                    onClick={(e) => {
-                      e.preventDefault();
-                      callBackendAPI(300, 'seconds');
-                    }}
-                  >
-                    5 minutes
-                  </button>
-                  <button
-                    className='button is-fullwidth'
-                    onClick={(e) => {
-                      e.preventDefault();
-                      callBackendAPI(60, 'minutes');
-                    }}
-                  >
-                    1 hour
-                  </button>
+                  {renderButton(30, 'seconds', '30 seconds')}
+                  {renderButton(60, 'seconds', '60 seconds')}
+                  {renderButton(300, 'seconds', '5 minutes')}
+                  {renderButton(60, 'minutes', '1 hour')}
                 </div>
               </form>
             </div>
@@ -66,6 +38,20 @@ const callBackendAPI = async (amount, type) => {
   } catch (e) {
     console.log(e);
   }
+};
+
+const renderButton = (amount, unit, description) => {
+  return (
+    <button
+      className='button is-fullwidth'
+      onClick={(e) => {
+        e.preventDefault();
+        callBackendAPI(amount, unit);
+      }}
+    >
+      {description}
+    </button>
+  );
 };
 
 export default App;
