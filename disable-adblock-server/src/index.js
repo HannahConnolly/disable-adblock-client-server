@@ -27,19 +27,19 @@ app.get('/', (req, res) => {
 
 app.get('/status', (req, res) => {
   console.log('checking status...');
-  console.log(
-    exec('pihole status', (error, stdout, stderr) => {
-      if (error) {
-        console.log(`error: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.log(`stderr: ${stderr}`);
-        return;
-      }
+
+  exec('pihole status', (error, stdout, stderr) => {
+    if (error) {
+      console.log(`error: ${error.message}`);
       return;
-    })
-  );
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(stdout);
+    return;
+  });
   res.status(200);
   res.send('recieved..');
 });
