@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 
 app.get('/status', (req, res) => {
   console.log('checking status...');
-
+  let output = '';
   exec('pihole status', (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
@@ -37,11 +37,13 @@ app.get('/status', (req, res) => {
       console.log(`stderr: ${stderr}`);
       return;
     }
-    console.log(stdout);
+    output = stdout;
     return;
   });
+  console.log(output);
+  if (output.includes('Pi-hole blocking is enabled'));
   res.status(200);
-  res.send('recieved..');
+  res.send(output);
 });
 
 buildDisableString = (input) => {
