@@ -25,6 +25,26 @@ app.get('/', (req, res) => {
   res.send('recieved..');
 });
 
+app.get('/status', (req, res) => {
+  console.log('checking status...')
+  exec('pihole status', (error, stdout, stderr) => {
+    if (error) {
+      console.log(`error: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+    return;
+  });
+  console.log(req.query);
+  res.status(200);
+  res.send('recieved..');
+});
+
+
+
 buildDisableString = (input) => {
   if (input.hasOwnProperty('seconds')) {
     console.log(`pihole disable ${input.seconds}s`);
