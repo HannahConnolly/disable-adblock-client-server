@@ -28,7 +28,8 @@ app.get('/', (req, res) => {
 app.get('/status', (req, res) => {
   console.log('checking status...');
   let output;
-  exec('pihole status', (error, stdout, stderr) => {
+  // await needed prob
+  await exec('pihole status', (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
       return;
