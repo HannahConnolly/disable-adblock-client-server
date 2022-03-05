@@ -44,8 +44,7 @@ async function getStatusFromConsole() {
       console.log(`stderr: ${stderr}`);
       return;
     }
-    output = stdout;
-    return;
+    return stdout;
   });
 }
 
