@@ -29,7 +29,7 @@ app.get('/status', (req, res) => {
   console.log('checking status...');
   const status = getStatusFromConsole();
   console.log('output: ' + status);
-  if (output.includes('Pi-hole blocking is enabled'));
+  if (status.includes('Pi-hole blocking is enabled'));
   res.status(200);
   res.send(status);
 });
