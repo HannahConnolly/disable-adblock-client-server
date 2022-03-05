@@ -35,7 +35,7 @@ app.get('/status', (req, res) => {
 
 async function getStatusFromConsole() {
   let output;
-  exec('pihole status', (error, stdout, stderr) => {
+  await exec('pihole status', (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
       return;
