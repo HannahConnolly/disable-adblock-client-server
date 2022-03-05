@@ -27,11 +27,11 @@ app.get('/', (req, res) => {
 
 app.get('/status', (req, res) => {
   console.log('checking status...');
-  const status = getStatusFromConsole();
-  console.log('output: ' + status);
-  if (status.includes('Pi-hole blocking is enabled'));
-  res.status(200);
-  res.send(status);
+  const status = getStatusFromConsole().then(() => {
+    console.log('output: ' + status);
+    if (status.includes('Pi-hole blocking is enabled')) res.status(200);
+    res.send(status);
+  });
 });
 
 async function getStatusFromConsole() {
