@@ -27,9 +27,15 @@ app.get('/', (req, res) => {
 
 app.get('/status', (req, res) => {
   console.log('checking status...');
-  let output;
-  // await needed prob
-  await exec('pihole status', (error, stdout, stderr) => {
+  const status = await getStatusFromConsole();
+  console.log('output: ' + status);
+  if (output.includes('Pi-hole blocking is enabled'));
+  res.status(200);
+  res.send(status);
+});
+
+async function getStatusFromConsole() {
+  exec('pihole status', (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
       return;
@@ -41,11 +47,7 @@ app.get('/status', (req, res) => {
     output = stdout;
     return;
   });
-  console.log('output: ' + output);
-  if (output.includes('Pi-hole blocking is enabled'));
-  res.status(200);
-  res.send(output);
-});
+}
 
 buildDisableString = (input) => {
   if (input.hasOwnProperty('seconds')) {
