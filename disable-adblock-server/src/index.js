@@ -56,7 +56,7 @@ app.get('/status', (req, res) => {
 // }
 
 async function lsExample() {
-  const out = 'test';
+  let out = 'test';
   try {
     const { stdout, stderr } = await exec('pihole status');
     console.log('stdout:', stdout);
