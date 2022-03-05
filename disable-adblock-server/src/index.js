@@ -27,7 +27,6 @@ app.get('/', (req, res) => {
 
 app.get('/status', (req, res) => {
   getStatusFromConsole().then((status) => {
-    console.log('checking status...');
     console.log('output: ' + status);
     if (status.includes('Pi-hole blocking is enabled')) res.status(200);
     res.send(status);
