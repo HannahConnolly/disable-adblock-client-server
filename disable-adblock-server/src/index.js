@@ -65,7 +65,7 @@ async function lsExample() {
   } catch (e) {
     console.error(e); // should contain code (exit code) and signal (that caused the termination).
   }
-  return stdout;
+  return out;
 }
 
 buildDisableString = (input) => {
