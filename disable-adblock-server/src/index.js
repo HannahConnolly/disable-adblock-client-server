@@ -25,16 +25,15 @@ app.get('/', (req, res) => {
   res.send('recieved..');
 });
 
-app.get('/status', (req, res) => {
+app.get('/status', async (req, res) => {
   console.log('checking status...');
-  const status = getStatusFromConsole().then(() => {
-    console.log('output: ' + status);
-    if (status.includes('Pi-hole blocking is enabled')) res.status(200);
-    res.send(status);
-  });
+  const status = await getStatusFromConsole();
+  console.log('output: ' + status);
+  if (status.includes('Pi-hole blocking is enabled')) res.status(200);
+  res.send(status);
 });
 
-async function getStatusFromConsole() {
+async function getStatusFromConsole(status) {
   await exec('pihole status', (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
@@ -44,6 +43,7 @@ async function getStatusFromConsole() {
       console.log(`stderr: ${stderr}`);
       return;
     }
+    status = stdout;
     return stdout;
   });
 }
