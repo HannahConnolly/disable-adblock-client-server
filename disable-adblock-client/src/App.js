@@ -4,7 +4,7 @@ const endpoint = 'http://192.168.1.94:5555';
 
 function App() {
   // const [button30, setbutton30] = useState['off'];
-  const [isBlocking, setIsBlocking] = useState['init'];
+  const [isBlocking, setIsBlocking] = useState('init');
   console.log(isBlocking);
 
   // fetching the GET route from the Express server which matches the GET route from server.js
@@ -20,21 +20,26 @@ function App() {
   };
 
   const renderEnabled = () => {
-    <button
-      className='button is-fullwidth'
-      onClick={(e) => {
-        e.preventDefault();
-        try {
-          fetch(`${endpoint}/status`, {
-            headers: new Headers({}),
-          }).then(setIsBlocking('after call'));
-        } catch (e) {
-          console.log(e);
-        }
-      }}
-    >
-      check status
-    </button>;
+    return (
+      <button
+        className='button is-fullwidth'
+        onClick={(e) => {
+          e.preventDefault();
+          try {
+            fetch(`${endpoint}/status`, {
+              headers: new Headers({}),
+            })
+              .then((response) => console.log(response))
+              .then((data) => console.log(data))
+              .then(setIsBlocking('after response'));
+          } catch (e) {
+            console.log(e);
+          }
+        }}
+      >
+        check status
+      </button>
+    );
   };
 
   const renderButton = (amount, unit, description) => {
