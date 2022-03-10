@@ -6,6 +6,7 @@ const PORT = 5555;
 // const { exec } = require('child_process');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
+const cors = require('cors');
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
