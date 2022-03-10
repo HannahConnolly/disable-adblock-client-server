@@ -32,7 +32,6 @@ app.get('/status', (req, res) => {
     console.log('output: ' + status);
     if (status.includes('Pi-hole blocking is enabled')) res.status(200);
     res.send(status);
-    // });
   });
 });
 
