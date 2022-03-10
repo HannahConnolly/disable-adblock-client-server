@@ -7,6 +7,7 @@ const PORT = 5555;
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
