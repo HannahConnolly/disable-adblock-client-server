@@ -4,7 +4,7 @@ const endpoint = 'http://192.168.1.94:5555';
 
 function App() {
   // const [button30, setbutton30] = useState['off'];
-  const [isBlocking, setIsBlocking] = useState[false];
+  const [isBlocking, setIsBlocking] = useState['init'];
   console.log(isBlocking);
 
   // fetching the GET route from the Express server which matches the GET route from server.js
