@@ -29,8 +29,8 @@ function App() {
             fetch(`${endpoint}/status`, {
               headers: new Headers({}),
             })
-              .then((response) => console.log(response))
-              .then((data) => console.log(data))
+              .then((response) => console.log(response.body))
+              // .then((data) => console.log(data))
               .then(setIsBlocking('after response'));
           } catch (e) {
             console.log(e);
