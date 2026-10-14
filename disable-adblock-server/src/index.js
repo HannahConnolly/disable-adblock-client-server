@@ -1,38 +1,49 @@
-console.log('test');
 const express = require('express');
 const app = express();
-const fs = require('fs');
 const PORT = 5555;
-const { exec } = require('child_process');
+const { execFile } = require('child_process');
+
+const MAX_SECONDS = 24 * 60 * 60;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  exec(buildDisableString(req.query), (error, stdout, stderr) => {
-    if (error) {
-      console.log(`error: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.log(`stderr: ${stderr}`);
-      return;
-    }
-    return;
-  });
-  console.log(req.query);
-  res.status(200);
-  res.send('recieved..');
+// let the React client (served from a different port) read our responses
+app.use((req, res, next) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  next();
 });
 
-buildDisableString = (input) => {
-  if (input.hasOwnProperty('seconds')) {
-    console.log(`pihole disable ${input.seconds}s`);
-    return `pihole disable ${input.seconds}s`;
-  } else {
-    console.log(`pihole disable ${input.minutes}m`);
-    return `pihole disable ${input.minutes}m`;
+app.get('/', (req, res) => {
+  const seconds = parseDuration(req.query);
+  if (seconds === null) {
+    return res
+      .status(400)
+      .json({ ok: false, error: `duration must be 1-${MAX_SECONDS} seconds` });
   }
+
+  // execFile runs pihole directly (no shell), so the argument can't inject commands
+  execFile('pihole', ['disable', `${seconds}s`], (error, stdout, stderr) => {
+    if (error) {
+      console.log(`error: ${error.message}`);
+      return res.status(500).json({ ok: false, error: stderr || error.message });
+    }
+    console.log(`pihole disable ${seconds}s`);
+    res.json({ ok: true, seconds, until: Date.now() + seconds * 1000 });
+  });
+});
+
+// accepts ?seconds=N or ?minutes=N, returns whole seconds or null if invalid
+const parseDuration = (query) => {
+  let seconds;
+  if (/^\d+$/.test(query.seconds)) {
+    seconds = Number(query.seconds);
+  } else if (/^\d+$/.test(query.minutes)) {
+    seconds = Number(query.minutes) * 60;
+  } else {
+    return null;
+  }
+  return seconds >= 1 && seconds <= MAX_SECONDS ? seconds : null;
 };
 
 app.listen(PORT, () => {

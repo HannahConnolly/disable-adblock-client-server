@@ -1,6 +1,6 @@
 # Todo
 
-- [ ] Stop Refresh on button press
-- [ ] Button output success
+- [x] Stop Refresh on button press
+- [x] Button output success
 - [ ] Write readme lol
-- [ ] Update pihole function
+- [ ] Update pihole function (move to Pi-hole v6 HTTP API?)
